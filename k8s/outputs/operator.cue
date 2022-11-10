@@ -60,7 +60,7 @@ operator_sts: [
 							]
 							if !config.test {
 								args: [
-									"-repo", "git@github.com:greymatter-io/greymatter-core.git",
+									"-repo", "git@github.com:joel-epstein/greymatter-core.git",
 									"-sshPrivateKeyPath", "/app/.ssh/ssh-private-key",
 									"-branch", "main",
 								]
@@ -110,16 +110,6 @@ operator_sts: [
 							}
 							initialDelaySeconds: 120
 							periodSeconds:       10
-						}
-						resources: {
-							limits: {
-								cpu:    "200m"
-								memory: "300Mi"
-							}
-							requests: {
-								cpu:    "100m"
-								memory: "150Mi"
-							}
 						}
 						securityContext: {
 							allowPrivilegeEscalation: false

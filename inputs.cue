@@ -36,7 +36,7 @@ mesh: meshv1.#Mesh & {
 	}
 	spec: {
 		install_namespace: string | *"greymatter"
-		watch_namespaces:  [...string] | *["default", "plus", "examples"]
+		watch_namespaces:  [...string] | *["default", "plus", "examples", "foobar-1", "foobar-2", "foobar-3", "foobar-4", "foobar-5", "foobar-6", "foobar-7", "foobar-8", "foobar-9", "foobar-10"]
 		images: {
 			proxy:       string | *"greymatter.jfrog.io/oci/greymatter-proxy:1.7.5-ubi8.6-2022-11-09"
 			catalog:     string | *"greymatter.jfrog.io/oci/greymatter-catalog:3.0.8-ubi8.6-2022-11-09"
@@ -104,7 +104,7 @@ defaults: {
 		index: "gm-audits-%Y-%m"
 		// elasticsearch_host can be an IP address or DNS hostname to your Elasticsearch instance.
 		// It's set to a non-empty value so that the audit-pipeline starts successfully.
-		elasticsearch_host: "localhost"
+		elasticsearch_host: "738aae73258b4cbe860493454f601052.centralus.azure.elastic-cloud.com"
 		// elasticsearch_port is the port of your Elasticsearch instance.
 		elasticsearch_port: 443
 		// elasticsearch_endpoint is the full endpoint containing protocol, host, and port
