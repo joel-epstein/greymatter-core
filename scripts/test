@@ -1,0 +1,86 @@
+#!/bin/bash
+
+set -euo pipefail
+
+cmd_eval_all () {
+  cmd_eval_gm
+  cmd_eval_k8s
+  cmd_eval_spire
+}
+
+cmd_eval_gm () {
+  echo "Running cue eval on greymatter configs..."
+  result=$(cue eval -c ./gm/outputs --out json)
+  if echo $result | jq -e 'has("controlensemble_config")' >/dev/null; then
+    echo "Test ${FUNCNAME[0]}............PASSED"
+  fi
+}
+
+cmd_eval_k8s () {
+  echo "Running cue eval on Kubernetes configs..."
+  result=$(cue eval -c ./k8s/outputs --out json)
+  if echo $result | jq -e 'has("operator_manifests")' >/dev/null; then
+    echo "Test ${FUNCNAME[0]}............PASSED"
+  fi
+}
+
+cmd_eval_spire () {
+  echo "Running cue eval on greymatter configs with Spire..."
+
+  result=$(cue eval -t spire=true -c ./gm/outputs --out json)
+  cluster=$(echo $result | jq '.controlensemble_config[] | select(.cluster_key=="controlensemble")')
+  secret_validation_name=$(echo $cluster | jq -r '.secret.secret_validation_name')
+  expected_value="spiffe://greymatter.io"
+
+  if [ "$secret_validation_name" = "$expected_value" ]; then
+    echo "Test ${FUNCNAME[0]}............PASSED"
+  else
+    echo "Test ${FUNCNAME[0]}............FAILED"
+    echo "Did not find {secret_validation_name: \"$expected_value\"} in cluster."
+    echo $cluster | jq
+    exit 1
+  fi
+
+  echo "Running cue eval on Kubernetes configs with Spire..."
+
+  result=$(cue eval -t spire=true -c ./k8s/outputs -e operator_manifests --out json)
+  spire_namespace=$(echo $result | jq '.[] | select(.metadata.name=="spire")')
+
+  if [ ! -z "$spire_namespace" ]; then
+    echo "Test ${FUNCNAME[0]}............PASSED"
+  else
+    echo "Test ${FUNCNAME[0]}............FAILED"
+    echo "Failed to find spire namespace."
+    exit 1
+  fi
+}
+
+cmd_help () {
+  echo "valid commands: eval help
+  
+eval_all:
+  'cue eval' all configs.
+eval_gm:
+  'cue eval' greymatter mesh configs.
+eval_k8s:
+  'cue eval' Kubernetes manifests.
+eval_spire:
+  'cue eval' greymatter and Kubernetes manifests with Spire.
+help:
+  Print this message and exit."
+}
+
+if [ $# -eq 0 ]; then
+  cmd_help
+else
+  MODE="${1:-}"
+  case "$MODE" in
+    help|eval_all|eval_gm|eval_k8s|eval_spire)
+      shift
+      "cmd_$MODE" "$@"
+      ;;
+    *)
+      cmd_help
+      ;;
+  esac
+fi
