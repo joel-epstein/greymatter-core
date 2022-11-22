@@ -47,8 +47,8 @@ mesh: meshv1.#Mesh & {
 			control:     string | *"greymatter.jfrog.io/dev-oci/gm-control:1.8.1"
 			// control_api: string | *"greymatter.jfrog.io/oci/greymatter-control-api:1.7.6-ubi8.6-2022-11-09"
 			control_api: string | *"greymatter.jfrog.io/dev-oci/gm-control-api:1.8.1"
-			redis:       string | *"index.docker.io/library/redis:6.2.7"
-			prometheus:  string | *"index.docker.io/prom/prometheus:v2.40.1"
+			redis:       string | *"greymatter.jfrog.io/internal-oci/redis:latest"
+			prometheus:  string | *"greymatter.jfrog.io/internal-oci/prometheus:v2.36.2"
 		}
 	}
 }
