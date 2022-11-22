@@ -46,12 +46,12 @@ observables_config: [
 		domain_key: EgressToElasticSearchName
 		// don't change this, the app expects this port
 		port: 9200
-		custom_headers: [
-			{
-				key:   "Host"
-				value: defaults.audits.elasticsearch_host
-			},
-		]
+		// custom_headers: [
+		// 	{
+		// 		key:   "Host"
+		// 		value: defaults.audits.elasticsearch_host
+		// 	},
+		// ]
 	},
 	#cluster & {
 		cluster_key:    EgressToElasticSearchName
