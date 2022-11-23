@@ -38,17 +38,28 @@ mesh: meshv1.#Mesh & {
 		install_namespace: string | *"greymatter"
 		watch_namespaces:  [...string] | *["default", "plus", "examples", "foobar-1", "foobar-2", "foobar-3", "foobar-4", "foobar-5", "foobar-6", "foobar-7", "foobar-8", "foobar-9", "foobar-10", "foobar-11", "foobar-12"]
 		images: {
-			// proxy:       string | *"greymatter.jfrog.io/oci/greymatter-proxy:1.7.5-ubi8.6-2022-11-09"
-			proxy:       string | *"greymatter.jfrog.io/dev-oci/gm-proxy:1.8.0"
+			proxy:       string | *"greymatter.jfrog.io/oci/greymatter-proxy:1.8.0-ubi8.6-2022-11-22"
 			catalog:     string | *"greymatter.jfrog.io/oci/greymatter-catalog:3.0.8-ubi8.6-2022-11-09"
-			// catalog:     string | *"greymatter.jfrog.io/dev-oci/gm-catalog:sc-6988-redact"
-			dashboard:   string | *"greymatter.jfrog.io/oci/greymatter-dashboard:6.0.4-ubi8.6-2022-11-09"
-			// control:     string | *"greymatter.jfrog.io/oci/greymatter-control:1.7.6-ubi8.6-2022-11-09"
-			control:     string | *"greymatter.jfrog.io/dev-oci/gm-control:1.8.2"
-			// control_api: string | *"greymatter.jfrog.io/oci/greymatter-control-api:1.7.6-ubi8.6-2022-11-09"
+			dashboard:   string | *"greymatter.jfrog.io/oci/greymatter-dashboard:6.0.5-ubi8.6-2022-11-22"
+			// control:     string | *"greymatter.jfrog.io/oci/greymatter-control:1.8.1-ubi8.6-2022-11-22"
+			control_api: string | *"greymatter.jfrog.io/dev-oci/gm-control:1.8.2"
+			// control_api: string | *"greymatter.jfrog.io/oci/greymatter-control-api:1.8.1-ubi8.6-2022-11-22"
 			control_api: string | *"greymatter.jfrog.io/dev-oci/gm-control-api:1.8.2"
-			redis:       string | *"greymatter.jfrog.io/internal-oci/redis:latest"
-			prometheus:  string | *"greymatter.jfrog.io/internal-oci/prometheus:v2.36.2"
+			redis:       string | *"index.docker.io/library/redis:6.2.7"
+			prometheus:  string | *"index.docker.io/prom/prometheus:v2.40.1"
+			
+			
+			// proxy:       string | *"greymatter.jfrog.io/oci/greymatter-proxy:1.7.5-ubi8.6-2022-11-09"
+			//proxy:       string | *"greymatter.jfrog.io/dev-oci/gm-proxy:1.8.0"
+			//catalog:     string | *"greymatter.jfrog.io/oci/greymatter-catalog:3.0.8-ubi8.6-2022-11-09"
+			// catalog:     string | *"greymatter.jfrog.io/dev-oci/gm-catalog:sc-6988-redact"
+			//dashboard:   string | *"greymatter.jfrog.io/oci/greymatter-dashboard:6.0.4-ubi8.6-2022-11-09"
+			// control:     string | *"greymatter.jfrog.io/oci/greymatter-control:1.7.6-ubi8.6-2022-11-09"
+			//control:     string | *"greymatter.jfrog.io/dev-oci/gm-control:1.8.2"
+			// control_api: string | *"greymatter.jfrog.io/oci/greymatter-control-api:1.7.6-ubi8.6-2022-11-09"
+			// control_api: string | *"greymatter.jfrog.io/dev-oci/gm-control-api:1.8.2"
+			//redis:       string | *"greymatter.jfrog.io/internal-oci/redis:latest"
+			//prometheus:  string | *"greymatter.jfrog.io/internal-oci/prometheus:v2.36.2"
 		}
 	}
 }
