@@ -469,8 +469,8 @@ import (
 
 #Metrics: {
 	sessions:               #MetricsReceiverSessionConfig
-	event_window_minutes?:  float
-	event_timeout_minutes?: float
+	event_window_minutes?:  int
+	event_timeout_minutes?: int
 }
 
 #Lad: {

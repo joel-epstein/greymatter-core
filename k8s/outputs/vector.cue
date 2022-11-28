@@ -304,7 +304,7 @@ vector: [
 			auth.user = \"elastic\"
 			auth.password = \"${ELASTICSEARCH_PASSWORD}\"
 			suppress_type_name = true
-			tls.verify_certificate = false
+			tls.verify_certificate = \(defaults.audits.elasticsearch_tls_verify_certificate)
 			"""
 		}
 	},

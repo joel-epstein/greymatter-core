@@ -33,6 +33,17 @@ import (
 			{name: "SPIRE_PATH", value: "\(defaults.spire.socket_mount_path)/agent.sock"}
 		},
 	]
+	resources: {
+		limits: {
+			cpu:    *"200m" | string
+			memory: *"512Mi" | string
+		}
+		requests: {
+			cpu:    *"50m" | string
+			memory: *"128Mi" | string
+		}
+
+	}
 	volumeMounts:    #sidecar_volume_mounts + _volume_mounts
 	imagePullPolicy: defaults.image_pull_policy
 }
@@ -44,7 +55,7 @@ import (
 			mountPath: defaults.spire.socket_mount_path
 		}]
 	}
-	if defaults.edge.enable_tls {
+	if defaults.edge.enable_tls && !(config.spire && defaults.spire.host_mount_socket) {
 		[{
 			name: "internal-tls-certs"
 			mountPath: "/etc/proxy/tls/sidecar/"
@@ -60,7 +71,7 @@ import (
 			hostPath: {path: defaults.spire.socket_mount_path, type: "DirectoryOrCreate"}
 		}]
 	}
-	if defaults.edge.enable_tls {
+	if defaults.edge.enable_tls && !(config.spire && defaults.spire.host_mount_socket) {
 		[{
 			name: "internal-tls-certs"
 			secret: {defaultMode: 420, secretName: defaults.edge.secret_name}

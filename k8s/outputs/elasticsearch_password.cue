@@ -21,7 +21,7 @@ elasticsearch_password: [
 			namespace: mesh.spec.install_namespace
 		}
 		stringData: {
-			password: "CHANGE_ME"
+			password: "changeme"
 		}
 	},
 ]

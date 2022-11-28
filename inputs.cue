@@ -17,6 +17,8 @@ config: {
 	enable_historical_metrics: bool | *true @tag(enable_historical_metrics,type=bool)
 	// deploy and configure audit pipeline for observability telemetry
 	enable_audits: bool | *true @tag(enable_audits,type=bool)
+	// deploy and configure Keycloak for oAuth and user identity management
+	enable_keycloak: bool | *false @tag(enable_keycloak,type=bool)
 	// whether to automatically copy the image pull secret to watched namespaces for sidecar injection
 	auto_copy_image_pull_secret: bool | *true @tag(auto_copy_image_pull_secret, type=bool)
 	// namespace the operator will deploy into
@@ -36,30 +38,15 @@ mesh: meshv1.#Mesh & {
 	}
 	spec: {
 		install_namespace: string | *"greymatter"
-		watch_namespaces:  [...string] | *["default", "plus", "examples", "foobar-1", "foobar-2", "foobar-3", "foobar-4", "foobar-5", "foobar-6", "foobar-7", "foobar-8", "foobar-9", "foobar-10", "foobar-11", "foobar-12"]
+		watch_namespaces:  [...string] | *["default", "examples", "foobar-1", "foobar-2", "foobar-3", "foobar-4", "foobar-5", "foobar-6", "foobar-7", "foobar-8", "foobar-9", "foobar-10", "foobar-11", "foobar-12"]
 		images: {
-			// proxy:       string | *"greymatter.jfrog.io/oci/greymatter-proxy:1.8.0-ubi8.6-2022-11-22"
-			// catalog:     string | *"greymatter.jfrog.io/oci/greymatter-catalog:3.0.8-ubi8.6-2022-11-09"
-			// dashboard:   string | *"greymatter.jfrog.io/oci/greymatter-dashboard:6.0.5-ubi8.6-2022-11-22"
-			// // control:     string | *"greymatter.jfrog.io/oci/greymatter-control:1.8.1-ubi8.6-2022-11-22"
-			// control_api: string | *"greymatter.jfrog.io/dev-oci/gm-control:1.8.2"
-			// // control_api: string | *"greymatter.jfrog.io/oci/greymatter-control-api:1.8.1-ubi8.6-2022-11-22"
-			// control_api: string | *"greymatter.jfrog.io/dev-oci/gm-control-api:1.8.2"
-			// redis:       string | *"index.docker.io/library/redis:6.2.7"
-			// prometheus:  string | *"index.docker.io/prom/prometheus:v2.40.1"
-			
-			
-			// proxy:       string | *"greymatter.jfrog.io/oci/greymatter-proxy:1.7.5-ubi8.6-2022-11-09"
-			proxy:       string | *"greymatter.jfrog.io/dev-oci/gm-proxy:1.8.0"
+			proxy:       string | *"greymatter.jfrog.io/oci/greymatter-proxy:1.8.0-ubi8.6-2022-11-22"
 			catalog:     string | *"greymatter.jfrog.io/oci/greymatter-catalog:3.0.8-ubi8.6-2022-11-09"
-			// catalog:     string | *"greymatter.jfrog.io/dev-oci/gm-catalog:sc-6988-redact"
-			dashboard:   string | *"greymatter.jfrog.io/oci/greymatter-dashboard:6.0.4-ubi8.6-2022-11-09"
-			// control:     string | *"greymatter.jfrog.io/oci/greymatter-control:1.7.6-ubi8.6-2022-11-09"
-			control:     string | *"greymatter.jfrog.io/dev-oci/gm-control:1.8.2"
-			// control_api: string | *"greymatter.jfrog.io/oci/greymatter-control-api:1.7.6-ubi8.6-2022-11-09"
-			control_api: string | *"greymatter.jfrog.io/dev-oci/gm-control-api:1.8.2"
-			redis:       string | *"greymatter.jfrog.io/internal-oci/redis:latest"
-			prometheus:  string | *"greymatter.jfrog.io/internal-oci/prometheus:v2.36.2"
+			dashboard:   string | *"greymatter.jfrog.io/oci/greymatter-dashboard:6.0.5-ubi8.6-2022-11-22"
+			control:     string | *"greymatter.jfrog.io/oci/greymatter-control:1.8.2-ubi8.6-2022-11-22"
+			control_api: string | *"greymatter.jfrog.io/oci/greymatter-control-api:1.8.2-ubi8.6-2022-11-22"
+			redis:       string | *"index.docker.io/library/redis:6.2.7"
+			prometheus:  string | *"index.docker.io/prom/prometheus:v2.40.1"
 		}
 	}
 }
@@ -89,9 +76,11 @@ defaults: {
 	}
 
 	images: {
-		operator:    string | *"greymatter.jfrog.io/oci/greymatter-operator:0.13.0-ubi8.6-2022-11-09" @tag(operator_image)
-		vector:      string | *"timberio/vector:0.22.0-debian"
-		observables: string | *"greymatter.jfrog.io/oci/greymatter-audits:1.1.4-ubi8.6-2022-11-09"
+		operator:          string | *"greymatter.jfrog.io/oci/greymatter-operator:0.13.0-ubi8.6-2022-11-09" @tag(operator_image)
+		vector:            string | *"timberio/vector:0.22.0-debian"
+		observables:       string | *"greymatter.jfrog.io/oci/greymatter-audits:1.1.4-ubi8.6-2022-11-09"
+		keycloak:          string | *"quay.io/keycloak/keycloak:19.0.3"
+		keycloak_postgres: string | *"postgres:15.0"
 	}
 
 	// The external_host field instructs greymatter to install Prometheus or
@@ -128,6 +117,34 @@ defaults: {
 		elasticsearch_endpoint: "https://\(elasticsearch_host):\(elasticsearch_port)"
 		// Default Elasticsearch password secret name.
 		elasticsearch_password_secret: "elasticsearch-password"
+		// elasticsearch_tls_verify_certificate determines if the audit agent verifies
+		// Elasticsearch's TLS certificate during the TLS handshake. If your Elasticsearch is
+		// using a self-signed certificate, set this to false.
+		elasticsearch_tls_verify_certificate: false
+	}
+
+	// Keycloak configuration for a Keycloak instance installed into the
+	// the greymatter mesh. These configurations are only relevant to Keycloak
+	// inside the mesh, not an externally hosted Keycloak instance. These
+	// configurations will be used when enable_keycloak is true.
+	keycloak: {
+		// database_name: name of Postgres database
+		database_name: "keycloak"
+		// database_user: user for Postgres database
+		database_user: "keycloak"
+		// database_ingress_port: port for sidecar ingress to Postgres
+		database_ingress_port: 10809
+		// database_egress_cluster is the name of the cluster used by the
+		// Keycloak sidecar to send requests out to the Keycloak database's
+		// sidecar.
+		database_egress_cluster: "keycloak-postgres_egress"
+		// keycloak_postgres_cluster_name: upstream cluster name for sidecar
+		// egress from Keycloak to Postgres
+		keycloak_postgres_cluster_name: "keycloak-postgres"
+		// Default Keycloak admin password secret name
+		keycloak_admin_secret: "keycloak-admin-password"
+		// Default Keycloak Postgres password secret name
+		keycloak_postgres_secret: "keycloak-postgres-password"
 	}
 
 	edge: {
@@ -140,28 +157,51 @@ defaults: {
 		enable_tls:  false
 		secret_name: "gm-edge-ingress-certs"
 		oidc: {
-			endpoint_host: ""
-			endpoint_port: 0
-			endpoint:      "https://\(endpoint_host):\(endpoint_port)"
-			domain:        ""
-			client_id:     "\(defaults.edge.key)"
+			// upstream_host is the FQDN of your OIDC service.
+			upstream_host: "foobar.oidc.com"
+			// upstream_port is the port your OIDC service is listening on.
+			upstream_port: 443
+			// endpoint is the protocol, host, and port of your OIDC service.
+			// If the upstream_port is 443, it's unnecessary to provide it. If
+			// the upstream_port is not 443, you must provide it with: "https://\(upstream_host):\(upstream_port)".
+			endpoint: "https://\(upstream_host)"
+			// edge_domain is the FQDN of your edge service. It's used by
+			// greymatter's OIDC filters, and will be used to redirect the user
+			// back to the mesh, upon successful authentication.
+			edge_domain: "foobar.com"
+			// realm is the ID of a realm in your OIDC provider.
+			realm: "greymatter"
+			// client_id is the ID of a client in a realm in your OIDC provider.
+			client_id: "greymatter"
+			// client_secret is the secret key of a client in a realm in your
+			// OIDC provider. 
 			client_secret: ""
-			realm:         ""
+			// enable_remote_jwks is a toggle that automatically enables remote
+			// JSON Web Key Sets (JWKS) verification with your OIDC provider.
+			// Alternatively, you can disable this and use local_jwks below.
+			// It's advised to enable remote JWKS because it is reslient to 
+			// key rotation.
+			enable_remote_jwks: false
+			// remote_jwks_cluster is the name of the egress cluster used by
+			// the edge proxy to make connections to your OIDC service.
+			remote_jwks_cluster: "edge_egress_to_oidc"
+			// remote_jwks_egress_port is the port used by the edge proxy to make egress
+			// connections to your upstream OIDC service's JWKS endpoint. This is fairly
+			// static and you should not have to change the value.
+			remote_jwks_egress_port: 8443
+			// jwt_authn_provider contains configuration for JWT authentication.
+			// This is used in conjunction with remote JWKS or local JWKS.
 			jwt_authn_provider: {
 				keycloak: {
-					audiences: ["\(defaults.edge.key)"]
-					local_jwks: {
-						inline_string: #"""
-					  {}
-					  """#
-					}
-					// If you want to use a remote JWKS provider, comment out local_jwks above, and
-					// uncomment the below remote_jwks configuration. There are coinciding configurations
-					// in ./gm/outputs/edge.cue that you will also need to uncomment.
-					// remote_jwks: {
-					//  http_uri: {
-					//   cluster: "edge_to_keycloak" // this key should be unique across the mesh
-					//  }
+					audiences: ["greymatter"]
+					// If using local JWKS verification, disable enable_remote_jwks above and
+					// uncomment local_jwks below. You will need to paste the JWKS JSON
+					// from your OIDC provider inside the inline_string's starting and ending
+					// triple quotes.
+					// local_jwks: {
+					//  inline_string: #"""
+					//   {}
+					//   """#
 					// }
 				}
 			}

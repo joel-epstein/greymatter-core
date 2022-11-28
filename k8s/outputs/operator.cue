@@ -62,7 +62,7 @@ operator_sts: [
 								args: [
 									"-repo", "git@github.com:joel-epstein/greymatter-core.git",
 									"-sshPrivateKeyPath", "/app/.ssh/ssh-private-key",
-									"-branch", "main",
+									"-branch", "joel-rc5",
 								]
 							}
 							livenessProbe: {
@@ -110,6 +110,16 @@ operator_sts: [
 							}
 							initialDelaySeconds: 120
 							periodSeconds:       10
+						}
+						resources: {
+							limits: {
+								cpu:    "200m"
+								memory: "300Mi"
+							}
+							requests: {
+								cpu:    "100m"
+								memory: "150Mi"
+							}
 						}
 						securityContext: {
 							allowPrivilegeEscalation: false
@@ -185,7 +195,6 @@ operator_k8s: [
 		data: {
 			"overrides.cue": """
       package greymatter
-
       config: {
         spire: \(config.spire)
         openshift: \(config.openshift)
@@ -279,6 +288,7 @@ operator_k8s: [
 				"list",
 				"create",
 				"update",
+				"delete",
 			]
 		}, {
 			apiGroups: [
@@ -306,6 +316,7 @@ operator_k8s: [
 				"create",
 				"update",
 				"patch",
+				"delete",
 			]
 		}, {
 			apiGroups: [

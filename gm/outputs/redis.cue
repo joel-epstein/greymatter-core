@@ -9,18 +9,7 @@ redis_config: [
     domain_key: RedisIngressName
     port: defaults.ports.redis_ingress
   },
-	#cluster & {
-		cluster_key: RedisIngressName, _upstream_port: 6379
-		_enable_circuit_breakers: true
-		circuit_breakers: {
-			max_connections:      4096
-			max_pending_requests: 4096
-			max_requests:         4096
-			max_retries:          2
-			max_connection_pools: 4096
-			track_remaining:      false
-		}	
-	},
+	#cluster & {cluster_key: RedisIngressName, _upstream_port: 6379},
 	// unused route must exist for the cluster to be registered
 	#route & {route_key: RedisIngressName},
 	// see below for details on this listener config

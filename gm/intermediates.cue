@@ -133,6 +133,11 @@ import (
 		_keycloak_pre_17: defaults.edge.oidc.keycloak_pre_17
 	}
 
+	protocol: *"http_auto" | "tcp"
+	if _tcp_upstream != _|_ {
+		protocol: "tcp"
+	}
+
 	// Identifiers for the object within the mesh
 	listener_key: string
 	name:         listener_key
@@ -450,8 +455,11 @@ import (
 					providers: defaults.edge.oidc.jwt_authn_provider
 					providers: keycloak: issuer: _oidc_provider
 
-					if defaults.edge.oidc.jwt_authn_provider.keycloak.remote_jwks != _|_ {
-						providers: keycloak: remote_jwks: http_uri: uri: *"\(_oidc_provider)/protocol/openid-connect/certs" | string
+					if defaults.edge.oidc.enable_remote_jwks {
+						providers: keycloak: remote_jwks: http_uri: {
+							cluster: defaults.edge.oidc.remote_jwks_cluster
+							uri:     *"\(_oidc_provider)/protocol/openid-connect/certs" | string
+						}
 					}
 				}
 			}
@@ -492,7 +500,6 @@ import (
 	}
 
 	zone_key: mesh.spec.zone
-	protocol: "http_auto"
 }
 
 // #cluster represents "upstream" or outgoing traffic from the proxy. Generally, this is

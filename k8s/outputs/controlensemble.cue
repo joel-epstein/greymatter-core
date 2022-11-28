@@ -56,6 +56,10 @@ controlensemble: [
 								{name: "GM_CONTROL_API_ZONE_NAME", value:            mesh.spec.zone},
 								{name: "GM_CONTROL_DIFF_IGNORE_CREATE", value:       "true"},
 							]
+							resources: {
+								limits: {cpu: "200m", memory: "1Gi"}
+								requests: {cpu: "125m", memory: "256Mi"}
+							}
 							imagePullPolicy: defaults.image_pull_policy
 						}, // control
 
@@ -80,6 +84,10 @@ controlensemble: [
 								{name: "GM_CONTROL_API_REDIS_PORT", value: "6379"}, // local redis in this pod
 								{name: "GM_CONTROL_API_REDIS_DB", value:   "0"},
 							]
+							resources: {
+								limits: {cpu: "400m", memory: "512Mi"}
+								requests: {cpu: "250m", memory: "256Mi"}
+							}
 							imagePullPolicy: defaults.image_pull_policy
 						}, // control_api
 

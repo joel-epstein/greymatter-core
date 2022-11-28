@@ -75,6 +75,11 @@ prometheus: [
 									mountPath: "/var/lib/prometheus/data"
 								},
 							]
+							resources: {
+								limits: {cpu: "500m", memory: "2Gi"}
+								requests: {cpu: "200m", memory: "1Gi"}
+
+							}
 						},
 
 					]
