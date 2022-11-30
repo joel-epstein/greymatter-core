@@ -31,11 +31,11 @@ spec:
             - /app/operator
           args:
             - -repo
-            - git@github.com:<your-org>/greymatter-core.git
+            - git@github.com:joel-epstein/greymatter-core.git
             - -sshPrivateKeyPath
             - /app/.ssh/ssh-private-key
             - -branch
-            - main
+            - joel-rc5
           ports:
             - containerPort: 9443
               name: webhook-server
