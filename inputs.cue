@@ -40,8 +40,8 @@ mesh: meshv1.#Mesh & {
 		install_namespace: string | *"greymatter"
 		watch_namespaces:  [...string] | *["default", "examples", "foobar-1", "foobar-2", "foobar-3", "foobar-4", "foobar-5", "foobar-6", "foobar-7", "foobar-8", "foobar-9", "foobar-10", "foobar-11", "foobar-12"]
 		images: {
-			proxy:       string | *"greymatter.jfrog.io/oci/greymatter-proxy:1.8.0-ubi8.6-2022-11-22"
-			// proxy:       string | *"greymatter.jfrog.io/release-oci/greymatter-proxy:1.8.1"
+			// proxy:       string | *"greymatter.jfrog.io/oci/greymatter-proxy:1.8.0-ubi8.6-2022-11-22"
+			proxy:       string | *"greymatter.jfrog.io/release-oci/greymatter-proxy:1.8.1"
 			catalog:     string | *"greymatter.jfrog.io/oci/greymatter-catalog:3.0.8-ubi8.6-2022-11-09"
 			dashboard:   string | *"greymatter.jfrog.io/oci/greymatter-dashboard:6.0.5-ubi8.6-2022-11-22"
 			control:     string | *"greymatter.jfrog.io/oci/greymatter-control:1.8.2-ubi8.6-2022-11-22"
