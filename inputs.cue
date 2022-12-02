@@ -44,7 +44,7 @@ mesh: meshv1.#Mesh & {
 			proxy:       string | *"greymatter.jfrog.io/release-oci/greymatter-proxy:1.8.1"
 			catalog:     string | *"greymatter.jfrog.io/dev-oci/oci/greymatter-catalog:3.0.8"
 			// dashboard:   string | *"greymatter.jfrog.io/oci/greymatter-dashboard:6.0.5-ubi8.6-2022-11-22"
-			dashboard:   string | *"greymatter.jfrog.io/dev-oci/greymatter-dashboard:6.0.6"
+			dashboard:   string | *"greymatter.jfrog.io/dev-oci/gm-dashboard:6.0.6"
 			// control:     string | *"greymatter.jfrog.io/oci/greymatter-control:1.8.2-ubi8.6-2022-11-22"
 			control:     string | *"greymatter.jfrog.io/dev-oci/greymatter-control:1.8.3"
 			// control_api: string | *"greymatter.jfrog.io/oci/greymatter-control-api:1.8.2-ubi8.6-2022-11-22"
