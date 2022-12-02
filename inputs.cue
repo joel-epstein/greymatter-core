@@ -41,24 +41,12 @@ mesh: meshv1.#Mesh & {
 		watch_namespaces:  [...string] | *["default", "examples", "foobar-1", "foobar-2", "foobar-3", "foobar-4", "foobar-5", "foobar-6", "foobar-7", "foobar-8", "foobar-9", "foobar-10", "foobar-11", "foobar-12"]
 		images: {
 			proxy:       string | *"greymatter.jfrog.io/release-oci/greymatter-proxy:1.8.1"
-			catalog:     string | *"greymatter.jfrog.io/oci/greymatter-catalog:3.0.8-ubi8.6-2022-11-09"
-			dashboard:   string | *"greymatter.jfrog.io/oci/greymatter-dashboard:6.0.5-ubi8.6-2022-11-22"
-			control:     string | *"greymatter.jfrog.io/oci/greymatter-control:1.8.2-ubi8.6-2022-11-22"
-			control_api: string | *"greymatter.jfrog.io/oci/greymatter-control-api:1.8.2-ubi8.6-2022-11-22"
+			catalog:     string | *"greymatter.jfrog.io/release-oci/greymatter-catalog:3.0.8-ubi8.6-2022-11-09"
+			dashboard:   string | *"greymatter.jfrog.io/release-oci/greymatter-dashboard:6.0.5-ubi8.6-2022-11-22"
+			control:     string | *"greymatter.jfrog.io/release-oci/greymatter-control:1.8.2"
+			control_api: string | *"greymatter.jfrog.io/release-oci/greymatter-control-api:1.8.2"
 			redis:       string | *"index.docker.io/library/redis:6.2.7"
 			prometheus:  string | *"index.docker.io/prom/prometheus:v2.40.1"
-			
-			// // proxy:       string | *"greymatter.jfrog.io/oci/greymatter-proxy:1.8.0-ubi8.6-2022-11-22"
-			// proxy:       string | *"greymatter.jfrog.io/release-oci/greymatter-proxy:1.8.1"
-			// catalog:     string | *"greymatter.jfrog.io/-oci/greymatter-catalog:3.0.8"
-			// // dashboard:   string | *"greymatter.jfrog.io/oci/greymatter-dashboard:6.0.5-ubi8.6-2022-11-22"
-			// dashboard:   string | *"greymatter.jfrog.io/dev-oci/gm-dashboard:6.0.6"
-			// // control:     string | *"greymatter.jfrog.io/oci/greymatter-control:1.8.2-ubi8.6-2022-11-22"
-			// control:     string | *"greymatter.jfrog.io/release-oci/greymatter-control:1.8.2"
-			// // control_api: string | *"greymatter.jfrog.io/oci/greymatter-control-api:1.8.2-ubi8.6-2022-11-22"
-			// control_api: string | *"greymatter.jfrog.io/release-oci/greymatter-control-api:1.8.2"
-			// redis:       string | *"index.docker.io/library/redis:6.2.7"
-			// prometheus:  string | *"index.docker.io/prom/prometheus:v2.40.1"
 		}
 	}
 }
