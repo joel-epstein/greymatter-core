@@ -59,7 +59,7 @@ catalog_entries: [
 		mesh_id:                   mesh.metadata.name
 		service_id:                "dashboard"
 		version:                   strings.Split(mesh.spec.images.dashboard, ":")[1]
-		description:               "A user dashboard that paints a high-level picture of the mesh. YESSIR"
+		description:               "A user dashboard that paints a high-level picture of the mesh."
 		business_impact:           "high"
 		enable_instance_metrics:   true
 		enable_historical_metrics: config.enable_historical_metrics

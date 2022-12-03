@@ -60,6 +60,11 @@ observables: [
 										key:  "password"
 									}
 								}
+							}, {
+								// Required for upstream requests to Elasticsearch
+								// https://app.shortcut.com/grey-matter/story/31682/audit-app-es-egress-config-sets-host-header-unsupported-in-envoy-1-24-0
+								name:  "ES_HOST"
+								value: defaults.audits.elasticsearch_host
 							}]
 							resources: {
 								limits: {

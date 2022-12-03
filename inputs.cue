@@ -40,11 +40,11 @@ mesh: meshv1.#Mesh & {
 		install_namespace: string | *"greymatter"
 		watch_namespaces:  [...string] | *["default", "examples", "foobar-1", "foobar-2", "foobar-3", "foobar-4", "foobar-5", "foobar-6", "foobar-7", "foobar-8", "foobar-9", "foobar-10", "foobar-11", "foobar-12"]
 		images: {
-			proxy:       string | *"greymatter.jfrog.io/release-oci/greymatter-proxy:1.8.1"
-			catalog:     string | *"greymatter.jfrog.io/release-oci/greymatter-catalog:3.0.8-ubi8.6-2022-11-09"
-			dashboard:   string | *"greymatter.jfrog.io/release-oci/greymatter-dashboard:6.0.5-ubi8.6-2022-11-22"
-			control:     string | *"greymatter.jfrog.io/release-oci/greymatter-control:1.8.2"
-			control_api: string | *"greymatter.jfrog.io/release-oci/greymatter-control-api:1.8.2"
+			proxy:       string | *"greymatter.jfrog.io/oci/greymatter-proxy:1.8.1"
+			catalog:     string | *"greymatter.jfrog.io/oci/greymatter-catalog:3.0.8"
+			dashboard:   string | *"greymatter.jfrog.io/oci/greymatter-dashboard:6.0.6"
+			control:     string | *"greymatter.jfrog.io/oci/greymatter-control:1.8.3"
+			control_api: string | *"greymatter.jfrog.io/oci/greymatter-control-api:1.8.3"
 			redis:       string | *"index.docker.io/library/redis:6.2.7"
 			prometheus:  string | *"index.docker.io/prom/prometheus:v2.40.1"
 		}
@@ -76,9 +76,10 @@ defaults: {
 	}
 
 	images: {
-		operator:          string | *"greymatter.jfrog.io/oci/greymatter-operator:0.13.0-ubi8.6-2022-11-09" @tag(operator_image)
+		cli:               string | *"greymatter.jfrog.io/oci/greymatter-cli:4.5.7"
+		operator:          string | *"greymatter.jfrog.io/oci/greymatter-operator:0.14.0" @tag(operator_image)
 		vector:            string | *"timberio/vector:0.22.0-debian"
-		observables:       string | *"greymatter.jfrog.io/oci/greymatter-audits:1.1.4-ubi8.6-2022-11-09"
+		observables:       string | *"greymatter.jfrog.io/oci/greymatter-audits:1.1.5"
 		keycloak:          string | *"quay.io/keycloak/keycloak:19.0.3"
 		keycloak_postgres: string | *"postgres:15.0"
 	}

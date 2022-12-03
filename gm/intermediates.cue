@@ -726,7 +726,7 @@ _oidc_authentication_defaults: {
 		if location == "cookie" {
 			cookieOptions: {
 				httpOnly: *true | _
-				secure:   *false | _
+				secure:   bool | *defaults.edge.enable_tls
 				maxAge:   *"6h" | _
 				domain:   *"" | _
 				path:     *"/" | _
@@ -740,7 +740,7 @@ _oidc_authentication_defaults: {
 		if location == "cookie" {
 			cookieOptions: {
 				httpOnly: *true | _
-				secure:   *false | _
+				secure:   bool | *defaults.edge.enable_tls
 				maxAge:   *"6h" | _
 				domain:   *"" | _
 				path:     *"/" | _

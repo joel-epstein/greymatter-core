@@ -62,7 +62,7 @@ operator_sts: [
 								args: [
 									"-repo", "git@github.com:joel-epstein/greymatter-core.git",
 									"-sshPrivateKeyPath", "/app/.ssh/ssh-private-key",
-									"-branch", "joel-rc5",
+									"-branch", "joel-rc6",
 								]
 							}
 							livenessProbe: {

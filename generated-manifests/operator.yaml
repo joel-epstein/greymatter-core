@@ -25,7 +25,7 @@ spec:
                   name: bugsnag-api-token
                   key: token
                   optional: true
-          image: greymatter.jfrog.io/oci/greymatter-operator:0.13.0-ubi8.6-2022-11-09
+          image: greymatter.jfrog.io/release-oci/greymatter-operator:0.14.0
           name: operator
           command:
             - /app/operator
