@@ -76,7 +76,8 @@ defaults: {
 	}
 
 	images: {
-		cli:               string | *"greymatter.jfrog.io/oci/greymatter-cli:4.5.7"
+		// cli:               string | *"greymatter.jfrog.io/oci/greymatter-cli:4.5.7"
+		cli:               string | *"greymatter.jfrog.io/internal-oci/cli:joel-test"
 		operator:          string | *"greymatter.jfrog.io/oci/greymatter-operator:0.14.0" @tag(operator_image)
 		vector:            string | *"timberio/vector:0.22.0-debian"
 		observables:       string | *"greymatter.jfrog.io/oci/greymatter-audits:1.1.5"
