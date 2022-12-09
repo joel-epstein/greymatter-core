@@ -96,10 +96,6 @@ spire_server: [
 							name:      "server-data" // Mounted from PVC
 							mountPath: "/run/spire/data"
 						}]
-						resources: {
-							limits: {cpu: "350m", memory: "1Gi"}
-							requests: {cpu: "100m", memory: "512Mi"}
-						}
 					}, {
 						name:            "registrar"
 						image:           "gcr.io/spiffe-io/k8s-workload-registrar:1.2.0"
@@ -121,10 +117,6 @@ spire_server: [
 							name:      "server-socket"
 							mountPath: defaults.spire.socket_mount_path
 						}]
-						resources: {
-							limits: {cpu: "400m", memory: "1Gi"}
-							requests: {cpu: "100m", memory: "512Mi"}
-						}
 					}]
 					volumes: [{
 						name: "server-socket"
@@ -394,10 +386,6 @@ spire_agent: [
 							name:      "agent-token"
 							mountPath: "/run/spire/token"
 						}]
-						resources: {
-							limits: {cpu: "400m", memory: "512Mi"}
-							requests: {cpu: "200m", memory: "256Mi"}
-						}
 					}]
 					volumes: [{
 						name: "agent-config"

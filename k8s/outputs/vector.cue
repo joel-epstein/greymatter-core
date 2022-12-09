@@ -179,16 +179,6 @@ vector: [
 							name:      "sysfs"
 							readOnly:  true
 						}]
-						resources: {
-							requests: {
-								memory: "64Mi"
-								cpu:    "500m"
-							}
-							limits: {
-								memory: "1024Mi"
-								cpu:    "6000m"
-							}
-						}
 					}]
 					serviceAccountName:            Name
 					terminationGracePeriodSeconds: 60
